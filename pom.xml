@@ -7,21 +7,6 @@
     <artifactId>xa-qa</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
-    
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.14.1</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>2.14.1</version>
-            </plugin>
-        </plugins>
-    </build>
     <repositories>
         <repository>
             <releases>
@@ -35,31 +20,67 @@
             <layout>default</layout>
         </repository>
     </repositories>
-    
-    <dependencies>
-        <dependency>
+  	<dependencies>
+	    <dependency>
             <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.8.2</version>
-        </dependency> 
-               
-        <dependency>
-            <groupId>com.xingcloud.xa</groupId>
-            <artifactId>rpc_client_v2</artifactId>
-            <version>1.0</version>       
-        </dependency>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+		</dependency>
 
-        <dependency>
-            <groupId>com.xingcloud</groupId>
-            <artifactId>basis</artifactId>
-            <version>0.0.5</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>com.xingcloud</groupId>
-            <artifactId>cache</artifactId>
-            <version>0.0.4</version>
-        </dependency>
-        
-    </dependencies>
+    	<dependency>
+            <groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<version>1.7</version>
+		</dependency>
+
+          <dependency>
+               <groupId>com.xingcloud.xa</groupId>
+               <artifactId>rpc_client_v2</artifactId>
+               <version>1.0</version>       
+           </dependency>
+   
+           <dependency>
+               <groupId>com.xingcloud</groupId>
+               <artifactId>basis</artifactId>
+               <version>0.0.5</version>
+           </dependency>
+           
+           <dependency>
+               <groupId>com.xingcloud</groupId>
+               <artifactId>cache</artifactId>
+               <version>0.0.4</version>
+           </dependency>
+	</dependencies>
+
+    <build>
+        <plugins>
+ 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>generate-test-sources</id>
+						<phase>generate-test-sources</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+					</execution>
+				</executions>
+					<configuration>
+						<mainClass>com.xingcloud.xa.qa.CaseGenerator</mainClass>
+					</configuration>
+			</plugin>
+        	<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.14.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>2.14.1</version>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
