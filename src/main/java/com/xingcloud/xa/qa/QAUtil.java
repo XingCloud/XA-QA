@@ -21,17 +21,33 @@ public class QAUtil {
     return instance;
   }
   
-  public List<Map<String, String>> getIndexs() throws Exception {
+  public Map<String, List<Map<String, Object>>> getIndexs() throws Exception {
     List<Dom> domList = ConfigReader.getDomList("mi.xml", "monitor", "index");
-    List<Map<String, String>> indexs = new ArrayList<Map<String, String>>();
+
+    Map<String, List<Map<String, Object>>> indexs = new HashMap<String, List<Map<String, Object>>>();
     for(Dom dom:domList){
-      Map<String, String> index = new HashMap<String, String>();
-      index.put("project", dom.elementText("project"));
+      
+      String project =  dom.elementText("project");
+      if(! indexs.containsKey(project)){
+        indexs.put(project, new ArrayList<Map<String, Object>>());
+      }
+      Map<String, Object> index = new HashMap<String, Object>();
       index.put("type", dom.elementText("type"));
       index.put("event", dom.elementText("event"));
       index.put("segmentJson","TOTAL_USER");
-      index.put("attr",dom.elementText("property"));
-      indexs.add(index);          
+      String[] deviation = dom.elementText("deviation").split("#");
+      double O2ODeviation = Double.valueOf(deviation[0]);
+      double T2YDeviation = Double.valueOf(deviation[1]);
+      index.put("O2ODeviation", O2ODeviation);
+      index.put("T2YDeviation", T2YDeviation);
+      if (dom.elementText("type").equals("group_by_user_property")){
+        index.put("attr",dom.elementText("property"));
+      }else{
+        index.put("attr","");
+      }
+      
+      index.put("identifier", (index.get("type")+"_"+((String)index.get("event")).replace(".","dot").replace("*","star")));
+      indexs.get(project).add(index);         
     }
 
     return indexs;

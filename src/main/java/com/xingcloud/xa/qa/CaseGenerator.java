@@ -17,6 +17,8 @@
  ******************************************************************************/
 package com.xingcloud.xa.qa;
 
+import com.xingcloud.basic.conf.ConfigReader;
+import com.xingcloud.basic.conf.Dom;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -26,24 +28,28 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CaseGenerator {
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws Exception {
     doGenerateCases();
   }
 
-  private static void doGenerateCases() throws IOException {
+  private static void doGenerateCases() throws Exception {
     System.out.println("TODO GENERATING...");
     
     Template template = getTemplate("src/main/resources/TestTemplate.java");
-    generateTestFor(template, "Age", "Pay", "Visit");
+    Map<String, List<Map<String, Object>>> indexs = QAUtil.getInstance().getIndexs();
+    for(Map.Entry<String, List<Map<String, Object>>> projectIndexs: indexs.entrySet()){
+      generateTestFor(template, projectIndexs.getKey(), projectIndexs.getValue());
+    }
   }
 
-  private static void generateTestFor(Template template, String project, String... events) throws IOException {
+  private static void generateTestFor(Template template, String project, List<Map<String, Object>> indexs) throws IOException {
     Context context = new VelocityContext();
     context.put("project", project);
-    context.put("events", events);
+    context.put("indexs", indexs);
     StringWriter writer = new StringWriter();
     template.merge(context, writer);
     System.out.println("template = " + template);

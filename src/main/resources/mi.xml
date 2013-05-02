@@ -1,194 +1,232 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<root>
 <monitor>
 	<index>
 		<project>age</project>
 		<type>common</type>
 		<event>visit.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>age</project>
 		<type>common</type>
 		<event>pay.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>age</project>
 		<type>common</type>
 		<event>heartbeat.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>age</project>
 		<type>common</type>
 		<event>*.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>age</project>
 		<type>group_by_user_property</type>
 		<event>visit.*</event>
 		<property>identifier</property>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>age</project>
 		<type>group_by_min5</type>
 		<event>heartbeat.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	
 	<index>
 		<project>happyfarmer</project>
 		<type>common</type>
 		<event>visit.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>happyfarmer</project>
 		<type>common</type>
 		<event>pay.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>happyfarmer</project>
 		<type>common</type>
 		<event>heartbeat.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>happyfarmer</project>
 		<type>common</type>
 		<event>*.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>happyfarmer</project>
 		<type>group_by_user_property</type>
 		<event>visit.*</event>
 		<property>identifier</property>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>happyfarmer</project>
 		<type>group_by_min5</type>
 		<event>heartbeat.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 
 	<index>
 		<project>happyranch</project>
 		<type>common</type>
 		<event>visit.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>happyranch</project>
 		<type>common</type>
 		<event>pay.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>happyranch</project>
 		<type>common</type>
 		<event>heartbeat.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>happyranch</project>
 		<type>common</type>
 		<event>*.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>happyranch</project>
 		<type>group_by_user_property</type>
 		<event>visit.*</event>
 		<property>identifier</property>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>happyranch</project>
 		<type>group_by_min5</type>
 		<event>heartbeat.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 
 	<index>
 		<project>xlfc</project>
 		<type>common</type>
 		<event>visit.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>xlfc</project>
 		<type>common</type>
 		<event>pay.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>xlfc</project>
 		<type>common</type>
 		<event>heartbeat.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>xlfc</project>
 		<type>common</type>
 		<event>*.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>xlfc</project>
 		<type>group_by_user_property</type>
 		<event>visit.*</event>
 		<property>identifier</property>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>xlfc</project>
 		<type>group_by_min5</type>
 		<event>heartbeat.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 
 	<index>
 		<project>ddt</project>
 		<type>common</type>
 		<event>visit.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>ddt</project>
 		<type>common</type>
 		<event>pay.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>ddt</project>
 		<type>common</type>
 		<event>heartbeat.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>ddt</project>
 		<type>common</type>
 		<event>*.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>ddt</project>
 		<type>group_by_user_property</type>
 		<event>visit.*</event>
 		<property>identifier</property>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>ddt</project>
 		<type>group_by_min5</type>
 		<event>heartbeat.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 
 	<index>
 		<project>opiece</project>
 		<type>common</type>
 		<event>visit.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>opiece</project>
 		<type>common</type>
 		<event>pay.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>opiece</project>
 		<type>common</type>
 		<event>heartbeat.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>opiece</project>
 		<type>common</type>
 		<event>*.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>opiece</project>
 		<type>group_by_user_property</type>
 		<event>visit.*</event>
 		<property>identifier</property>
+        <deviation>0.01#0.2</deviation>
 	</index>
 	<index>
 		<project>opiece</project>
 		<type>group_by_min5</type>
 		<event>heartbeat.*</event>
+        <deviation>0.01#0.2</deviation>
 	</index>
 </monitor>
+</root>
