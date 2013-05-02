@@ -3,7 +3,7 @@
 *~
 *.class
 target/*
-src/test/java/com/xingcloud/xa/qa/cases/*
+src/test/java/com/xingcloud/xa/qa/cases/*Test.java
 
 # Package Files #
 *.jar
