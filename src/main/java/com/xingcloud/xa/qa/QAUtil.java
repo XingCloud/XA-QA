@@ -34,7 +34,11 @@ public class QAUtil {
       Map<String, Object> index = new HashMap<String, Object>();
       index.put("type", dom.elementText("type"));
       index.put("event", dom.elementText("event"));
-      index.put("segmentJson","TOTAL_USER");
+      if(dom.existElement("segment")){
+        index.put("segmentJson", dom.elementText("segment"));
+      }else{
+        index.put("segmentJson","TOTAL_USER");
+      }
       String[] deviation = dom.elementText("deviation").split("#");
       double O2ODeviation = Double.valueOf(deviation[0]);
       double T2YDeviation = Double.valueOf(deviation[1]);

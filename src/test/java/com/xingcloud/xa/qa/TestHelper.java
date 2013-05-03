@@ -107,7 +107,7 @@ public class TestHelper {
       
       if(existDeviation){
         mismatching = true;
-        LOG.info(indent+deviationReport.toString());
+        LOG.error(indent+deviationReport.toString());
       }
       
     }  
@@ -139,7 +139,10 @@ public class TestHelper {
     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     today = df.format(DateUtils.previousDay(DateUtils.today()));
     yesterday = df.format(DateUtils.previousDay(DateUtils.yesterday()));
-
+    
+    String todaySegment = segmentJson.replace("date", today);
+    String yesterdaySegment = segmentJson.replace("date", yesterday);
+    
     double percent = 1;
 
     Map<Object, CopResultV2> todayHBase = null;
@@ -149,55 +152,54 @@ public class TestHelper {
     if(type.equals("common")){
       todayDesc = new FormulaQueryDescriptor(project, today,
         today, event,
-        segmentJson, Filter.ALL, 0, 0, true, true, true,
+        todaySegment, Filter.ALL, 0, 0, true, true, true,
         FormulaQueryDescriptor.CommonQueryType.NORMAL, FormulaQueryDescriptor.Interval.PERIOD);
 
       yesterdayDesc = new FormulaQueryDescriptor(project, yesterday,
         yesterday, event,
-        segmentJson, Filter.ALL, 0, 0, true, true, true,
+        yesterdaySegment, Filter.ALL, 0, 0, true, true, true,
         FormulaQueryDescriptor.CommonQueryType.NORMAL, FormulaQueryDescriptor.Interval.PERIOD);
 
-       todayHBase = getCommonResultFromHBase(project,event,segmentJson,percent,today);
+       todayHBase = getCommonResultFromHBase(project,event,todaySegment,percent,today);
       
     }else if(type.equals("group_by_user_property")){
 
       todayDesc = new FormulaQueryDescriptor(project, today,
         today, event,
-        segmentJson, Filter.ALL, 0, 0, true, true, true,
+        todaySegment, Filter.ALL, 0, 0, true, true, true,
         attr, FormulaQueryDescriptor.Interval.PERIOD);
 
       yesterdayDesc = new FormulaQueryDescriptor(project, yesterday,
         yesterday, event,
-        segmentJson, Filter.ALL, 0, 0, true, true, true, 
+        yesterdaySegment, Filter.ALL, 0, 0, true, true, true, 
         attr, FormulaQueryDescriptor.Interval.PERIOD);
 
-
-      todayHBase = getGroupbyAttrResult(project, event, segmentJson, percent, today, attr);  
+      todayHBase = getGroupbyAttrResult(project, event, todaySegment, percent, today, attr);  
 
     }else if(type.equals("group_by_min5")){
       todayDesc = new FormulaQueryDescriptor(project,today,
         today,event,
-        segmentJson, Filter.ALL,0 ,0, true, true, true,
+        todaySegment, Filter.ALL,0 ,0, true, true, true,
         FormulaQueryDescriptor.GroupByQueryType.PERIOD, 5, FormulaQueryDescriptor.Interval.MIN5);
 
       yesterdayDesc = new FormulaQueryDescriptor(project,yesterday,
         yesterday,event,
-        segmentJson, Filter.ALL,0 ,0, true, true, true,
+        yesterdaySegment, Filter.ALL,0 ,0, true, true, true,
         FormulaQueryDescriptor.GroupByQueryType.PERIOD, 5, FormulaQueryDescriptor.Interval.MIN5);
       
-      todayHBase = getGroupbyPeriod(project,event,segmentJson,percent,today,5);
+      todayHBase = getGroupbyPeriod(project,event,todaySegment,percent,today,5);
     }else if(type.equals("group_by_hour")){
       todayDesc = new FormulaQueryDescriptor(project,today,
         today,event,
-        segmentJson, Filter.ALL,0 ,0, true, true, true,
+        todaySegment, Filter.ALL,0 ,0, true, true, true,
         FormulaQueryDescriptor.GroupByQueryType.PERIOD, 60, FormulaQueryDescriptor.Interval.HOUR);
 
       yesterdayDesc = new FormulaQueryDescriptor(project,yesterday,
         yesterday,event,
-        segmentJson, Filter.ALL,0 ,0, true, true, true,
+        yesterdaySegment, Filter.ALL,0 ,0, true, true, true,
         FormulaQueryDescriptor.GroupByQueryType.PERIOD, 60, FormulaQueryDescriptor.Interval.HOUR);
 
-      todayHBase = getGroupbyPeriod(project,event,segmentJson,percent,today,60);
+      todayHBase = getGroupbyPeriod(project,event,todaySegment,percent,today,60);
     }
     if (todayDesc != null && yesterdayDesc != null && todayHBase !=null){
       //get the day/yesterday corresponding result from redis
