@@ -78,7 +78,7 @@ public class TestHelper {
       //redis and hbase contrast
       if (contrast(hBaseValue, todayRedis.get(key), O2ODeviation)){
         existDeviation = true;
-        deviationReport.append("hbase and redis contrast outside the  allowable deviation on ");
+        deviationReport.append("hbase and redis contrast outside the allowable deviation on ");
         deviationReport.append("'"+key+"':");
         deviationReport.append(numberArrayToString(hBaseValue));
         deviationReport.append(" vs ");
@@ -129,8 +129,8 @@ public class TestHelper {
   }
   public static boolean run(String project,String type,String event, String segmentJson, String attr, double O2ODeviation, double T2YDeviation) throws Exception{
     SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-    String today = df.format(DateUtils.today());
-    String yesterday = df.format(DateUtils.yesterday());
+    String today = df.format(DateUtils.previousDay(DateUtils.today()));
+    String yesterday = df.format(DateUtils.previousDay(DateUtils.yesterday()));
     double percent = 1;
 
     Map<Object, CopResultV2> todayHBase = null;
