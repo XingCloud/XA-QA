@@ -22,7 +22,7 @@ public class QAUtil {
   }
   
   public Map<String, List<Map<String, Object>>> getIndexs() throws Exception {
-    List<Dom> domList = ConfigReader.getDomList("mi-age.xml", "monitor", "index");
+    List<Dom> domList = ConfigReader.getDomList("mi.xml", "monitor", "index");
 
     Map<String, List<Map<String, Object>>> indexs = new HashMap<String, List<Map<String, Object>>>();
     for(Dom dom:domList){
