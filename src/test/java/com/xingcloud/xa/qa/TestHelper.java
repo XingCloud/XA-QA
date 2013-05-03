@@ -37,7 +37,7 @@ public class TestHelper {
     FormulaQueryDescriptor desc = new FormulaQueryDescriptor(project, date,
       date, event,
       segmentJson, Filter.ALL, 0, 0, true, true, true,
-      FormulaQueryDescriptor.CommonQueryType.NORMAL);
+      FormulaQueryDescriptor.CommonQueryType.NORMAL, FormulaQueryDescriptor.Interval.PERIOD);
 
     Set<FormulaQueryDescriptor> descs = new HashSet<FormulaQueryDescriptor>();
     descs.add(desc);
@@ -142,12 +142,12 @@ public class TestHelper {
       todayDesc = new FormulaQueryDescriptor(project, today,
         today, event,
         segmentJson, Filter.ALL, 0, 0, true, true, true,
-        FormulaQueryDescriptor.CommonQueryType.NORMAL);
+        FormulaQueryDescriptor.CommonQueryType.NORMAL, FormulaQueryDescriptor.Interval.PERIOD);
 
       yesterdayDesc = new FormulaQueryDescriptor(project, yesterday,
         yesterday, event,
         segmentJson, Filter.ALL, 0, 0, true, true, true,
-        FormulaQueryDescriptor.CommonQueryType.NORMAL);
+        FormulaQueryDescriptor.CommonQueryType.NORMAL, FormulaQueryDescriptor.Interval.PERIOD);
 
        todayHBase = getCommonResultFromHBase(project,event,segmentJson,percent,today);
       
@@ -156,12 +156,12 @@ public class TestHelper {
       todayDesc = new FormulaQueryDescriptor(project, today,
         today, event,
         segmentJson, Filter.ALL, 0, 0, true, true, true,
-        attr, FormulaQueryDescriptor.Interval.DAY);
+        attr, FormulaQueryDescriptor.Interval.PERIOD);
 
       yesterdayDesc = new FormulaQueryDescriptor(project, yesterday,
         yesterday, event,
         segmentJson, Filter.ALL, 0, 0, true, true, true, 
-        attr, FormulaQueryDescriptor.Interval.DAY);
+        attr, FormulaQueryDescriptor.Interval.PERIOD);
 
 
       todayHBase = getGroupbyAttrResult(project, event, segmentJson, percent, today, attr);  
@@ -170,24 +170,24 @@ public class TestHelper {
       todayDesc = new FormulaQueryDescriptor(project,today,
         today,event,
         segmentJson, Filter.ALL,0 ,0, true, true, true,
-        FormulaQueryDescriptor.GroupByQueryType.PERIOD, 5, FormulaQueryDescriptor.Interval.DAY);
+        FormulaQueryDescriptor.GroupByQueryType.PERIOD, 5, FormulaQueryDescriptor.Interval.MIN5);
 
       yesterdayDesc = new FormulaQueryDescriptor(project,today,
         today,event,
         segmentJson, Filter.ALL,0 ,0, true, true, true,
-        FormulaQueryDescriptor.GroupByQueryType.PERIOD, 5, FormulaQueryDescriptor.Interval.DAY);
+        FormulaQueryDescriptor.GroupByQueryType.PERIOD, 5, FormulaQueryDescriptor.Interval.MIN5);
       
       todayHBase = getGroupbyPeriod(project,event,segmentJson,percent,today,5);
     }else if(type.equals("group_by_hour")){
       todayDesc = new FormulaQueryDescriptor(project,today,
         today,event,
         segmentJson, Filter.ALL,0 ,0, true, true, true,
-        FormulaQueryDescriptor.GroupByQueryType.PERIOD, 60, FormulaQueryDescriptor.Interval.DAY);
+        FormulaQueryDescriptor.GroupByQueryType.PERIOD, 60, FormulaQueryDescriptor.Interval.HOUR);
 
       yesterdayDesc = new FormulaQueryDescriptor(project,today,
         today,event,
         segmentJson, Filter.ALL,0 ,0, true, true, true,
-        FormulaQueryDescriptor.GroupByQueryType.PERIOD, 60, FormulaQueryDescriptor.Interval.DAY);
+        FormulaQueryDescriptor.GroupByQueryType.PERIOD, 60, FormulaQueryDescriptor.Interval.HOUR);
 
       todayHBase = getGroupbyPeriod(project,event,segmentJson,percent,today,60);
     }
