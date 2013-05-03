@@ -26,7 +26,7 @@ public class QAUtil {
 
     Map<String, List<Map<String, Object>>> indexs = new HashMap<String, List<Map<String, Object>>>();
     for(Dom dom:domList){
-      
+      String segment = "TOTAL_USER";
       String project =  dom.elementText("project");
       if(! indexs.containsKey(project)){
         indexs.put(project, new ArrayList<Map<String, Object>>());
@@ -35,9 +35,10 @@ public class QAUtil {
       index.put("type", dom.elementText("type"));
       index.put("event", dom.elementText("event"));
       if(dom.existElement("segment")){
-        index.put("segmentJson", dom.elementText("segment"));
+        index.put("segmentJson", dom.elementText("segment").replace("\"","\\\""));
+        segment = "NEW_USER";
       }else{
-        index.put("segmentJson","TOTAL_USER");
+        index.put("segmentJson",segment);
       }
       String[] deviation = dom.elementText("deviation").split("#");
       double O2ODeviation = Double.valueOf(deviation[0]);
@@ -50,7 +51,7 @@ public class QAUtil {
         index.put("attr","");
       }
       
-      index.put("identifier", (index.get("type")+"_"+((String)index.get("event")).replace(".","dot").replace("*","star")));
+      index.put("identifier", (index.get("type")+"_"+((String)index.get("event")).replace(".","dot").replace("*","star"))+"_"+segment);
       indexs.get(project).add(index);         
     }
 

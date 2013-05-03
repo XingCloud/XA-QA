@@ -70,7 +70,7 @@ public class TestHelper {
   private static boolean deviationCheck(FormulaQueryDescriptor todayDesc, FormulaQueryDescriptor yesterdayDesc,double O2ODeviation, double T2YDeviation, Map<String, Number[]> todayRedis, Map<String, Number[]> yesterdayRedis, Map<Object, CopResultV2> todayHBase){
     LOG.info("QA result for " + todayDesc.getCacheKey() +":");
     boolean mismatching = false;
-    String indent = "    ";
+    String indent = ">>>>";
     for(Map.Entry<Object, CopResultV2> entry: todayHBase.entrySet()){
       String todayKey = (String)entry.getKey();
       String yesterdayKey = todayKey.replace(today, yesterday);
@@ -86,10 +86,11 @@ public class TestHelper {
         deviationReport.append(numberArrayToString(hBaseValue));
         deviationReport.append(" vs ");
         deviationReport.append(numberArrayToString(todayRedis.get(todayKey)));
-        deviationReport.append(";");
+        deviationReport.append("\n");
       }
       
       //today and yesterday contrast
+      deviationReport = new StringBuilder();
       if(yesterdayRedis != null){
         if (! yesterdayRedis.containsKey(yesterdayKey)){
           deviationReport.append("yesterday redis doesn't contain key "+yesterdayKey);
@@ -107,6 +108,7 @@ public class TestHelper {
       
       if(existDeviation){
         mismatching = true;
+        LOG.error(indent+"index:"+todayDesc.getCacheKey());
         LOG.error(indent+deviationReport.toString());
       }
       
