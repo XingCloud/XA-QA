@@ -128,7 +128,7 @@ public class TestHelper {
     return true;
   }
   public static boolean run(String project,String type,String event, String segmentJson, String attr, double O2ODeviation, double T2YDeviation) throws Exception{
-    SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     String today = df.format(DateUtils.today());
     String yesterday = df.format(DateUtils.yesterday());
     double percent = 1;

@@ -7,7 +7,7 @@
     <artifactId>xa-qa</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
-    <repositories>
+    <!--repositories>
         <repository>
             <releases>
                 <enabled>true</enabled>
@@ -19,7 +19,7 @@
             <url>http://xamavenrepo:8081/archiva/repository/internal</url>
             <layout>default</layout>
         </repository>
-    </repositories>
+    </repositories-->
   	<dependencies>
 	    <dependency>
             <groupId>junit</groupId>
