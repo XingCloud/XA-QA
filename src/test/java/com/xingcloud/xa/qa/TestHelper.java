@@ -27,6 +27,8 @@ import java.util.*;
  */
 public class TestHelper {
   
+  private static String today;
+  private static String yesterday;
   static {
     DOMConfigurator.configure("src/test/resources/log4j.xml");
   }
@@ -65,45 +67,44 @@ public class TestHelper {
     return result;
   }
   
-  private static boolean deviationCheck(FormulaQueryDescriptor desc, double O2ODeviation, double T2YDeviation, Map<String, Number[]> todayRedis, Map<String, Number[]> yesterdayRedis, Map<Object, CopResultV2> todayHBase){
-    LOG.info("QA result for " + desc.getCacheKey() +":");
+  private static boolean deviationCheck(FormulaQueryDescriptor todayDesc, FormulaQueryDescriptor yesterdayDesc,double O2ODeviation, double T2YDeviation, Map<String, Number[]> todayRedis, Map<String, Number[]> yesterdayRedis, Map<Object, CopResultV2> todayHBase){
+    LOG.info("QA result for " + todayDesc.getCacheKey() +":");
     boolean mismatching = false;
+    String indent = "    ";
     for(Map.Entry<Object, CopResultV2> entry: todayHBase.entrySet()){
-      String key = (String)entry.getKey();
+      String todayKey = (String)entry.getKey();
+      String yesterdayKey = todayKey.replace(today, yesterday);
       Number[] hBaseValue = new Number[]{entry.getValue().getEventNum(), entry.getValue().getEventAmount(),entry.getValue().getUserNum()};
      
       StringBuilder deviationReport = new StringBuilder();
       boolean existDeviation=false;
-      String indent = "    ";
       //redis and hbase contrast
-      if (contrast(hBaseValue, todayRedis.get(key), O2ODeviation)){
+      if (contrast(hBaseValue, todayRedis.get(todayKey), O2ODeviation)){
         existDeviation = true;
-        deviationReport.append("hbase and redis contrast outside the allowable deviation on ");
-        deviationReport.append("'"+key+"':");
+        deviationReport.append("H2R outside allowable deviation on ");
+        deviationReport.append("'"+todayKey+"':");
         deviationReport.append(numberArrayToString(hBaseValue));
         deviationReport.append(" vs ");
-        deviationReport.append(numberArrayToString(todayRedis.get(key)));
+        deviationReport.append(numberArrayToString(todayRedis.get(todayKey)));
       }
       
       //toaday and yesterday contrast
-      if (contrast(todayRedis.get(key), yesterdayRedis.get(key), T2YDeviation)){
+      if (contrast(todayRedis.get(todayKey), yesterdayRedis.get(yesterdayKey), T2YDeviation)){
         existDeviation = true;
-        deviationReport.append("today and yesterday contrast outside the allowable deviation on ");
-        deviationReport.append("'"+key+"':");
-        deviationReport.append(numberArrayToString(todayRedis.get(key)));
+        deviationReport.append("T2Y outside allowable deviation on ");
+        deviationReport.append("'"+todayKey+"':");
+        deviationReport.append(numberArrayToString(todayRedis.get(todayKey)));
         deviationReport.append(" vs ");
-        deviationReport.append(numberArrayToString(yesterdayRedis.get(key)));
+        deviationReport.append(numberArrayToString(yesterdayRedis.get(yesterdayKey)));
       }
       
       if(existDeviation){
         mismatching = true;
         LOG.info(indent+deviationReport.toString());
-      }else{
-        LOG.info(indent+"well matched");
       }
       
     }  
-    
+    if(!mismatching)  LOG.info(indent+"well matched");
     return mismatching;
   }
   private static String numberArrayToString(Number[] a){
@@ -121,16 +122,16 @@ public class TestHelper {
   
   private static boolean contrast(Number[] a, Number[] b, double allowableDeviation){
     for(int i=0; i<3; i++){
-      if(Math.abs(1-(Double)a[i]/(Double)b[i])>allowableDeviation){
-        return false;
+      if(Math.abs(1-a[i].doubleValue()/b[i].doubleValue())>allowableDeviation){
+        return true;
       }
     }
-    return true;
+    return false;
   }
   public static boolean run(String project,String type,String event, String segmentJson, String attr, double O2ODeviation, double T2YDeviation) throws Exception{
     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-    String today = df.format(DateUtils.previousDay(DateUtils.today()));
-    String yesterday = df.format(DateUtils.previousDay(DateUtils.yesterday()));
+    today = df.format(DateUtils.previousDay(DateUtils.today()));
+    yesterday = df.format(DateUtils.previousDay(DateUtils.yesterday()));
 
     double percent = 1;
 
@@ -172,8 +173,8 @@ public class TestHelper {
         segmentJson, Filter.ALL,0 ,0, true, true, true,
         FormulaQueryDescriptor.GroupByQueryType.PERIOD, 5, FormulaQueryDescriptor.Interval.MIN5);
 
-      yesterdayDesc = new FormulaQueryDescriptor(project,today,
-        today,event,
+      yesterdayDesc = new FormulaQueryDescriptor(project,yesterday,
+        yesterday,event,
         segmentJson, Filter.ALL,0 ,0, true, true, true,
         FormulaQueryDescriptor.GroupByQueryType.PERIOD, 5, FormulaQueryDescriptor.Interval.MIN5);
       
@@ -184,8 +185,8 @@ public class TestHelper {
         segmentJson, Filter.ALL,0 ,0, true, true, true,
         FormulaQueryDescriptor.GroupByQueryType.PERIOD, 60, FormulaQueryDescriptor.Interval.HOUR);
 
-      yesterdayDesc = new FormulaQueryDescriptor(project,today,
-        today,event,
+      yesterdayDesc = new FormulaQueryDescriptor(project,yesterday,
+        yesterday,event,
         segmentJson, Filter.ALL,0 ,0, true, true, true,
         FormulaQueryDescriptor.GroupByQueryType.PERIOD, 60, FormulaQueryDescriptor.Interval.HOUR);
 
@@ -199,7 +200,7 @@ public class TestHelper {
       XCache xCacheYesterday = NoSelectRedisXCacheOperator.getInstance().getCache(yesterdayDesc.getCacheKey(),0);
       Map<String, Number[]> yesterdayRedis = xCacheYesterday.getValue();
   
-     if (deviationCheck(todayDesc, O2ODeviation, T2YDeviation, todayRedis, yesterdayRedis, todayHBase)){
+     if (deviationCheck(todayDesc, yesterdayDesc, O2ODeviation, T2YDeviation, todayRedis, yesterdayRedis, todayHBase)){
         return false;
       }
   }
