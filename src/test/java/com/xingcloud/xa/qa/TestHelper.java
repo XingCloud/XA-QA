@@ -90,7 +90,6 @@ public class TestHelper {
       }
       
       //today and yesterday contrast
-      deviationReport = new StringBuilder();
       if(yesterdayRedis != null){
         if (! yesterdayRedis.containsKey(yesterdayKey)){
           deviationReport.append("yesterday redis doesn't contain key "+yesterdayKey);
@@ -109,11 +108,11 @@ public class TestHelper {
       if(existDeviation){
         mismatching = true;
         LOG.error(indent+"index:"+todayDesc.getCacheKey());
-        LOG.error(indent+deviationReport.toString());
+        LOG.error(indent+deviationReport.toString()+"\n");
       }
       
     }  
-    if(!mismatching)  LOG.info(indent+"well matched");
+    if(!mismatching)  LOG.info(indent+"well matched\n");
     return mismatching;
   }
   private static String numberArrayToString(Number[] a){
