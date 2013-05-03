@@ -86,16 +86,23 @@ public class TestHelper {
         deviationReport.append(numberArrayToString(hBaseValue));
         deviationReport.append(" vs ");
         deviationReport.append(numberArrayToString(todayRedis.get(todayKey)));
+        deviationReport.append(";");
       }
       
-      //toaday and yesterday contrast
-      if (contrast(todayRedis.get(todayKey), yesterdayRedis.get(yesterdayKey), T2YDeviation)){
-        existDeviation = true;
-        deviationReport.append("T2Y outside allowable deviation on ");
-        deviationReport.append("'"+todayKey+"':");
-        deviationReport.append(numberArrayToString(todayRedis.get(todayKey)));
-        deviationReport.append(" vs ");
-        deviationReport.append(numberArrayToString(yesterdayRedis.get(yesterdayKey)));
+      //today and yesterday contrast
+      if(yesterdayRedis != null){
+        if (! yesterdayRedis.containsKey(yesterdayKey)){
+          deviationReport.append("yesterday redis doesn't contain key "+yesterdayKey);
+        }else{
+          if (contrast(todayRedis.get(todayKey), yesterdayRedis.get(yesterdayKey), T2YDeviation)){
+            existDeviation = true;
+            deviationReport.append("T2Y outside allowable deviation on ");
+            deviationReport.append("'"+todayKey+"':");
+            deviationReport.append(numberArrayToString(todayRedis.get(todayKey)));
+            deviationReport.append(" vs ");
+            deviationReport.append(numberArrayToString(yesterdayRedis.get(yesterdayKey)));
+          }
+        }
       }
       
       if(existDeviation){
@@ -192,18 +199,29 @@ public class TestHelper {
 
       todayHBase = getGroupbyPeriod(project,event,segmentJson,percent,today,60);
     }
-  if (todayDesc != null && yesterdayDesc != null && todayHBase !=null){
+    if (todayDesc != null && yesterdayDesc != null && todayHBase !=null){
       //get the day/yesterday corresponding result from redis
+      LOG.debug(todayDesc.getCacheKey());
       XCache xCacheToday = NoSelectRedisXCacheOperator.getInstance().getCache(todayDesc.getCacheKey(),0);
+      if(xCacheToday == null){
+        LOG.error("redis doesn't contain the key:"+todayDesc.getCacheKey());
+        return true; //give up contrast, cause H2R and T2Y both need today's data from redis 
+      }
       Map<String, Number[]> todayRedis = xCacheToday.getValue();
-  
+      
+      LOG.debug(yesterdayDesc.getCacheKey());
       XCache xCacheYesterday = NoSelectRedisXCacheOperator.getInstance().getCache(yesterdayDesc.getCacheKey(),0);
-      Map<String, Number[]> yesterdayRedis = xCacheYesterday.getValue();
-  
-     if (deviationCheck(todayDesc, yesterdayDesc, O2ODeviation, T2YDeviation, todayRedis, yesterdayRedis, todayHBase)){
+      Map<String, Number[]> yesterdayRedis = null;
+      if(xCacheYesterday == null){
+        LOG.error("redis doesn't contain the key:"+yesterdayDesc.getCacheKey()); // do H2R contrast only 
+      }else{
+        yesterdayRedis = xCacheYesterday.getValue();
+      }
+      
+      if (deviationCheck(todayDesc, yesterdayDesc, O2ODeviation, T2YDeviation, todayRedis, yesterdayRedis, todayHBase)){
         return false;
       }
-  }
+    }
     return true;
 
   }
