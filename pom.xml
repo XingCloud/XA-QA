@@ -22,8 +22,9 @@
         
         <repository>
           <id>pre_production_repo</id>
-          <url>file:///home/hadoop/local_repo/pre_production</url>
+          <url>file:///home/hadoop/local_repo/production</url>
         </repository>
+        
         <repository>
             <id>cloudera</id>
             <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>

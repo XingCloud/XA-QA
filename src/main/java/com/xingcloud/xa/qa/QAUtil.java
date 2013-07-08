@@ -51,7 +51,7 @@ public class QAUtil {
         index.put("attr","");
       }
       
-      index.put("identifier", (index.get("type")+"_"+((String)index.get("event")).replace(".","dot").replace("*","star"))+"_"+segment);
+      index.put("identifier", (index.get("type")+"_"+((String)index.get("event")).replace(".","dot").replace("*","star"))+"_"+segment); //identifier the test
       indexs.get(project).add(index);         
     }
 

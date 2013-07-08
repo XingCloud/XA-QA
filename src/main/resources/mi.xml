@@ -29,7 +29,7 @@
         <project>age</project>
         <type>common</type>
         <event>visit.*</event>
-        <segment>{"register_time":{"$gte":"date","$lte":"date"}}</segment>
+        <segment>{"register_time":[{"op":"gte", "expr":"date", "type":"CONST"},{"op":"lte", "expr":"date", "type":"CONST"}]}</segment>
         <deviation>0.01#0.2</deviation>
     </index>
 	<index>
@@ -60,7 +60,7 @@
         <project>happyfarmer</project>
         <type>common</type>
         <event>visit.*</event>
-        <segment>{"register_time":{"$gte":"date","$lte":"date"}}</segment>
+        <segment>{"register_time":[{"op":"gte", "expr":"date", "type":"CONST"},{"op":"lte", "expr":"date", "type":"CONST"}]}</segment>
         <deviation>0.01#0.2</deviation>
     </index>
 	<index>
@@ -91,7 +91,7 @@
         <project>happyranch</project>
         <type>common</type>
         <event>visit.*</event>
-        <segment>{"register_time":{"$gte":"date","$lte":"date"}}</segment>
+        <segment>{"register_time":[{"op":"gte", "expr":"date", "type":"CONST"},{"op":"lte", "expr":"date", "type":"CONST"}]}</segment>
         <deviation>0.01#0.2</deviation>
     </index>
 	<index>
@@ -122,7 +122,7 @@
         <project>xlfc</project>
         <type>common</type>
         <event>visit.*</event>
-        <segment>{"register_time":{"$gte":"date","$lte":"date"}}</segment>
+        <segment>{"register_time":[{"op":"gte", "expr":"date", "type":"CONST"},{"op":"lte", "expr":"date", "type":"CONST"}]}</segment>
         <deviation>0.01#0.2</deviation>
     </index>
 	<index>
@@ -153,7 +153,7 @@
         <project>ddt</project>
         <type>common</type>
         <event>visit.*</event>
-        <segment>{"register_time":{"$gte":"date","$lte":"date"}}</segment>
+        <segment>{"register_time":[{"op":"gte", "expr":"date", "type":"CONST"},{"op":"lte", "expr":"date", "type":"CONST"}]}</segment>
         <deviation>0.01#0.2</deviation>
     </index>    
 	<index>
@@ -184,7 +184,7 @@
         <project>opiece</project>
         <type>common</type>
         <event>visit.*</event>
-        <segment>{"register_time":{"$gte":"date","$lte":"date"}}</segment>
+        <segment>{"register_time":[{"op":"gte", "expr":"date", "type":"CONST"},{"op":"lte", "expr":"date", "type":"CONST"}]}</segment>
         <deviation>0.01#0.2</deviation>
     </index>
 </monitor>
