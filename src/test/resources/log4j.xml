@@ -22,6 +22,7 @@
     <logger name="com.xingcloud.xa.qa.TestHelper">
         <level value="info" />
         <appender-ref ref="QA" />
+        <appender-ref ref="CONSOLE" />
     </logger>
 
     <root>

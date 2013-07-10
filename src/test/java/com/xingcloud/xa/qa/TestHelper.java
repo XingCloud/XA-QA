@@ -6,6 +6,7 @@ import com.xingcloud.adhocprocessorV2.query.XAQueryDEUCoprocessor;
 import com.xingcloud.adhocprocessorV2.query.model.Filter;
 import com.xingcloud.adhocprocessorV2.query.model.FormulaQueryDescriptor;
 import com.xingcloud.basic.conf.Dom;
+import com.xingcloud.basic.sgmt.SegmentEvaluator;
 import com.xingcloud.basic.utils.DateUtils;
 import com.xingcloud.cache.XCache;
 import com.xingcloud.cache.redis.NoSelectRedisXCacheOperator;
@@ -213,6 +214,7 @@ public class TestHelper {
       Map<String, Number[]> todayRedis = xCacheToday.getValue();
       
       LOG.debug(yesterdayDesc.getCacheKey());
+      
       XCache xCacheYesterday = NoSelectRedisXCacheOperator.getInstance().getCache(yesterdayDesc.getCacheKey(),0);
       Map<String, Number[]> yesterdayRedis = null;
       if(xCacheYesterday == null){
